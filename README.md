@@ -1,32 +1,103 @@
-# React + TypeScript + Vite
+#✈️ Avianta — Private Jet Search Engine
+A modern, high‑performance flight search engine built with a clean luxury aviation aesthetic. Avianta provides fast, reliable access to real‑time flight data using the Skyscanner Flights API (Crawlio), supported by a custom backend layer for mapping, normalization, caching, and error‑safe API communication.
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+##🚀 Overview
+Avianta is a full‑stack web application designed to deliver a premium flight‑search experience.
+It combines:
 
-Currently, two official plugins are available:
+React + Vite for a fast, elegant frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+Node.js + Express backend with advanced mapping & caching
 
-## React Compiler
+RapidAPI (Crawlio Skyscanner) for real‑time flight data
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Clean luxury UI inspired by private aviation platforms
 
-## Expanding the Oxlint configuration
+The system is optimized for speed, stability, and clarity, ensuring users receive accurate flight results even when external APIs fail or return incomplete data.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+###🧠 Key Features
+🔍 1. Real‑Time Flight Search
+Supports:
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
-```
+One‑way flights
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Round‑trip flights
+
+Multi‑city itineraries
+
+All powered by the Skyscanner Flights API.
+
+🗺️ 2. Intelligent Airport Mapping
+Avianta includes a custom mapping engine that:
+
+Converts city names → IATA airport codes
+
+Normalizes inconsistent user input
+
+Prevents API failures caused by unsupported routes
+
+Ensures BEIRUT → BEY, DOHA → DOH, etc.
+
+This layer guarantees stable API calls regardless of how the user types the city.
+
+🛡️ 4. Robust Error Handling
+The backend detects and handles Crawlio‑specific soft errors.
+Instead of crashing, Avianta returns a clean JSON response.
+
+📡 5. Clean, Modular Backend Architecture
+The backend includes:
+
+Centralized mapping utilities
+
+Normalization helpers
+
+Crawlio API wrapper
+
+Unified logging system
+
+Consistent route structure
+
+Full request/response tracing
+
+Everything is organized for clarity, scalability, and future expansion.
+
+🎨 6. Luxury Aviation UI
+The frontend is built with:
+
+React
+
+Vite
+
+TailwindCSS
+
+Smooth animations
+
+Clean luxury aviation theme
+
+Designed to feel premium, modern, and effortless.
+
+🏗️ Tech Stack
+Frontend
+React
+
+Vite
+
+TypeScript
+
+TailwindCSS
+
+Backend
+Node.js
+
+Express
+
+Axios
+
+Custom mapping + caching engine
+
+External Services
+RapidAPI — Skyscanner Flights (Crawlio)
+
+
+⚡ 3. 10‑Minute Smart Caching
+To reduce API usage and improve performance, Avianta caches results for 10 minutes using a structured key system:
