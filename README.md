@@ -1,8 +1,12 @@
-#✈️ Avianta — Private Jet Search Engine
-A modern, high‑performance flight search engine built with a clean luxury aviation aesthetic. Avianta provides fast, reliable access to real‑time flight data using the Skyscanner Flights API (Crawlio), supported by a custom backend layer for mapping, normalization, caching, and error‑safe API communication.
+✈️ Avianta — Private Jet Search Engine (MVP Version)
+Avianta is a modern, high‑performance MVP flight search engine built with a clean luxury aviation aesthetic.
+It delivers fast and reliable access to flight data using the Skyscanner Flights API (Crawlio), supported by a custom backend layer for airport mapping, input normalization, smart caching, and robust error handling.
 
-##🚀 Overview
-Avianta is a full‑stack web application designed to deliver a premium flight‑search experience.
+This MVP is fully functional and ready for deployment, portfolio presentation, and API approval.
+Avianta is designed to later integrate with the Real Skyscanner Partner API or any commercial aviation data provider.
+
+🚀 Overview
+Avianta is a full‑stack web application engineered to provide a premium flight‑search experience.
 It combines:
 
 React + Vite for a fast, elegant frontend
@@ -11,11 +15,11 @@ Node.js + Express backend with advanced mapping & caching
 
 RapidAPI (Crawlio Skyscanner) for real‑time flight data
 
-Clean luxury UI inspired by private aviation platforms
+Luxury aviation UI inspired by private jet platforms
 
-The system is optimized for speed, stability, and clarity, ensuring users receive accurate flight results even when external APIs fail or return incomplete data.
+The MVP focuses on speed, stability, and clarity, ensuring accurate results even when external APIs return incomplete data or soft errors.
 
-###🧠 Key Features
+🧠 Key Features
 🔍 1. Real‑Time Flight Search
 Supports:
 
@@ -25,7 +29,7 @@ Round‑trip flights
 
 Multi‑city itineraries
 
-All powered by the Skyscanner Flights API.
+All powered by the Skyscanner Flights API (Crawlio).
 
 🗺️ 2. Intelligent Airport Mapping
 Avianta includes a custom mapping engine that:
@@ -38,11 +42,10 @@ Prevents API failures caused by unsupported routes
 
 Ensures BEIRUT → BEY, DOHA → DOH, etc.
 
-This layer guarantees stable API calls regardless of how the user types the city.
+This guarantees stable API calls regardless of how the user types the city.
 
 🛡️ 4. Robust Error Handling
-The backend detects and handles Crawlio‑specific soft errors.
-Instead of crashing, Avianta returns a clean JSON response.
+The backend detects Crawlio‑specific soft errors and instead of crashing it returns a clean JSON response.
 
 📡 5. Clean, Modular Backend Architecture
 The backend includes:
@@ -59,7 +62,7 @@ Consistent route structure
 
 Full request/response tracing
 
-Everything is organized for clarity, scalability, and future expansion.
+Designed for clarity, scalability, and future integration with real aviation APIs.
 
 🎨 6. Luxury Aviation UI
 The frontend is built with:
@@ -72,32 +75,28 @@ TailwindCSS
 
 Smooth animations
 
-Clean luxury aviation theme
+A clean luxury aviation theme
 
-Designed to feel premium, modern, and effortless.
+Crafted to feel premium, modern, and effortless.
 
-🏗️ Tech Stack
-Frontend
-React
+🛫 Future Enhancements (Post‑MVP)
+Avianta is designed to evolve into a full production‑grade aviation search engine with:
 
-Vite
+Real Skyscanner Partner API integration
 
-TypeScript
+Live pricing & availability
 
-TailwindCSS
+Airline logos & metadata
 
-Backend
-Node.js
+Booking links
 
-Express
+Seat classes & fare families
 
-Axios
+Multi‑API fallback
 
-Custom mapping + caching engine
+Airport autocomplete
 
-External Services
-RapidAPI — Skyscanner Flights (Crawlio)
-
+User accounts & saved searches
 
 ⚡ 3. 10‑Minute Smart Caching
-To reduce API usage and improve performance, Avianta caches results for 10 minutes using a structured key system:
+To reduce API usage and improve performance, Avianta caches results for 10 minutes using structured keys
