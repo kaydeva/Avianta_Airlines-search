@@ -21,7 +21,7 @@ export default function HotelSearch() {
         minPrice: 0,
         maxPrice: 20000,
         minStars: 0,
-        amenities: [],
+        amenities: [] as string[],
     });
 
     const [modalOpen, setModalOpen] = useState(false);

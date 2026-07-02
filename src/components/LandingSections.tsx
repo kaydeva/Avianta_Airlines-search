@@ -4,23 +4,15 @@ import {
   Shield,
   Clock,
   Coffee,
-  Globe,
   ArrowRight,
   ChevronDown,
   ChevronUp,
   TrendingUp,
-  Compass,
-  DollarSign,
   Activity,
   Sparkles,
-  MapPin,
-  ExternalLink,
   Plane,
   Zap,
-  Eye,
-  Star,
-  Layers,
-  Ruler
+  Eye
 } from 'lucide-react';
 
 /* ═══════════════════════════════════════════════════════════════
@@ -192,8 +184,6 @@ function InteractiveGlobe() {
     setRotation({ x: y, y: x });
   };
 
-  const earthVisible = morphProgress < 0.7;
-  const ballVisible = morphProgress > 0.3;
   const earthScale = 1 - morphProgress * 1.2;
   const ballScale = (morphProgress - 0.3) * 1.5;
   const opacity = morphProgress < 0.5 ? 1 : 1 - (morphProgress - 0.5) * 2;
@@ -422,10 +412,7 @@ export default function LandingSections() {
 
   const [counts, setCounts] = useState({ routes: 0, cities: 0, operators: 0 });
   const countsRef = useRef(null);
-
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({ target: containerRef, offset: ['start end', 'end start'] });
-  const parallaxY = useTransform(scrollYProgress, [0, 1], [0, -60]);
 
   useEffect(() => {
     const observer = new IntersectionObserver(

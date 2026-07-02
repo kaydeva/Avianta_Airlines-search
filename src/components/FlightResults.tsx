@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import type { FlightResult } from '../api/skyscanner';
 import { Plane, Clock, ShieldCheck, Sparkles, ExternalLink, Search, RefreshCw } from 'lucide-react';
 

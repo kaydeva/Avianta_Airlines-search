@@ -15,7 +15,7 @@ import { searchRoundtrip } from "./api/roundtrip";
 import { searchMulticity } from "./api/multiCity";
 import type { FlightResult } from "./api/skyscanner";
 
-import { Sparkles, Plane, Building2, Car, ArrowRight, Search } from "lucide-react";
+import { Sparkles, Plane, Building2, Car } from "lucide-react";
 
 const SERVICE_TABS = [
   { id: "flights", label: "Flights", Icon: Plane },

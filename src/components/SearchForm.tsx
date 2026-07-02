@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PlaneTakeoff, PlaneLanding, Calendar, Search, Loader2, Users, ChevronDown, MapPin, Globe, Sparkles } from 'lucide-react';
+import { PlaneTakeoff, PlaneLanding, Calendar, Search, Loader2, Users, ChevronDown, MapPin, Globe } from 'lucide-react';
 import { searchAirport } from '../api/skyscanner';
 import type { AirportSuggestion } from '../api/skyscanner';
 

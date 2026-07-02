@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { PlaneTakeoff, PlaneLanding, Calendar, Search, Loader2, Users, ChevronDown, MapPin, Globe, Sparkles } from "lucide-react";
+import { PlaneTakeoff, PlaneLanding, Calendar, Search, Loader2, Users, ChevronDown, MapPin, Globe } from "lucide-react";
 import { searchAirport } from "../api/skyscanner";
 import type { AirportSuggestion } from "../api/skyscanner";
 
@@ -11,44 +11,44 @@ interface RoundtripFormProps {
 }
 
 const CABIN_CLASSES = [
-    { value: "economy",         label: "Economy"          },
-    { value: "premium_economy", label: "Premium Economy"  },
-    { value: "business",        label: "Business"         },
-    { value: "first",           label: "First Class"      },
+    { value: "economy", label: "Economy" },
+    { value: "premium_economy", label: "Premium Economy" },
+    { value: "business", label: "Business" },
+    { value: "first", label: "First Class" },
 ];
 
 type FocusField = 'origin' | 'dest' | null;
 
 export default function RoundtripForm({ onSearch, isLoading, setReturnDate }: RoundtripFormProps) {
-    const [origin, setOrigin]               = useState("");
-    const [destination, setDestination]     = useState("");
-    const [departDate, setDepartDate]       = useState("");
+    const [origin, setOrigin] = useState("");
+    const [destination, setDestination] = useState("");
+    const [departDate, setDepartDate] = useState("");
     const [returnDateLocal, setReturnDateLocal] = useState("");
-    const [adults, setAdults]               = useState(1);
-    const [cabinClass, setCabinClass]       = useState("economy");
-    const [showCabin, setShowCabin]         = useState(false);
+    const [adults, setAdults] = useState(1);
+    const [cabinClass, setCabinClass] = useState("economy");
+    const [showCabin, setShowCabin] = useState(false);
     const [validationError, setValidationError] = useState("");
-    const [focused, setFocused]             = useState<FocusField>(null);
+    const [focused, setFocused] = useState<FocusField>(null);
 
-    const [originSugg, setOriginSugg]       = useState<AirportSuggestion[]>([]);
-    const [destSugg, setDestSugg]           = useState<AirportSuggestion[]>([]);
+    const [originSugg, setOriginSugg] = useState<AirportSuggestion[]>([]);
+    const [destSugg, setDestSugg] = useState<AirportSuggestion[]>([]);
     const [selectedOrigin, setSelectedOrigin] = useState<AirportSuggestion | null>(null);
-    const [selectedDest, setSelectedDest]   = useState<AirportSuggestion | null>(null);
+    const [selectedDest, setSelectedDest] = useState<AirportSuggestion | null>(null);
     const [showOriginDrop, setShowOriginDrop] = useState(false);
-    const [showDestDrop, setShowDestDrop]   = useState(false);
+    const [showDestDrop, setShowDestDrop] = useState(false);
     const [loadingOrigin, setLoadingOrigin] = useState(false);
-    const [loadingDest, setLoadingDest]     = useState(false);
+    const [loadingDest, setLoadingDest] = useState(false);
 
     const originRef = useRef<HTMLDivElement>(null);
-    const destRef   = useRef<HTMLDivElement>(null);
-    const cabinRef  = useRef<HTMLDivElement>(null);
-    const today     = new Date().toISOString().split("T")[0];
+    const destRef = useRef<HTMLDivElement>(null);
+    const cabinRef = useRef<HTMLDivElement>(null);
+    const today = new Date().toISOString().split("T")[0];
 
     useEffect(() => {
         function handleClick(e: MouseEvent) {
             if (originRef.current && !originRef.current.contains(e.target as Node)) setShowOriginDrop(false);
-            if (destRef.current   && !destRef.current.contains(e.target as Node))   setShowDestDrop(false);
-            if (cabinRef.current  && !cabinRef.current.contains(e.target as Node))  setShowCabin(false);
+            if (destRef.current && !destRef.current.contains(e.target as Node)) setShowDestDrop(false);
+            if (cabinRef.current && !cabinRef.current.contains(e.target as Node)) setShowCabin(false);
         }
         document.addEventListener("mousedown", handleClick);
         return () => document.removeEventListener("mousedown", handleClick);
@@ -75,10 +75,9 @@ export default function RoundtripForm({ onSearch, isLoading, setReturnDate }: Ro
     }, [destination, selectedDest]);
 
     const inputBase = (focusedField: FocusField) =>
-        `w-full pl-11 pr-10 py-3.5 bg-white/5 border rounded-2xl text-white placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm font-medium ${
-            focused === focusedField
-                ? 'border-[#C9A86A]/60 shadow-[0_0_15px_rgba(201,168,106,0.08)]'
-                : 'border-white/10 hover:border-white/20'
+        `w-full pl-11 pr-10 py-3.5 bg-white/5 border rounded-2xl text-white placeholder-gray-500 focus:outline-none transition-all duration-300 text-sm font-medium ${focused === focusedField
+            ? 'border-[#C9A86A]/60 shadow-[0_0_15px_rgba(201,168,106,0.08)]'
+            : 'border-white/10 hover:border-white/20'
         }`;
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -86,12 +85,12 @@ export default function RoundtripForm({ onSearch, isLoading, setReturnDate }: Ro
         setValidationError("");
 
         const originCode = selectedOrigin?.iata || origin.split("—")[0].trim();
-        const destCode   = selectedDest?.iata   || destination.split("—")[0].trim();
+        const destCode = selectedDest?.iata || destination.split("—")[0].trim();
 
-        if (!originCode)     { setValidationError("Please enter a departure airport.");      return; }
-        if (!destCode)       { setValidationError("Please enter a destination airport.");    return; }
-        if (!departDate)     { setValidationError("Please select a departure date.");        return; }
-        if (!returnDateLocal){ setValidationError("Please select a return date.");           return; }
+        if (!originCode) { setValidationError("Please enter a departure airport."); return; }
+        if (!destCode) { setValidationError("Please enter a destination airport."); return; }
+        if (!departDate) { setValidationError("Please select a departure date."); return; }
+        if (!returnDateLocal) { setValidationError("Please select a return date."); return; }
         if (originCode.toUpperCase() === destCode.toUpperCase()) {
             setValidationError("Origin and destination cannot be the same.");
             return;
@@ -165,7 +164,7 @@ export default function RoundtripForm({ onSearch, isLoading, setReturnDate }: Ro
                             {origin && (
                                 <button type="button" onClick={() => { setOrigin(''); setSelectedOrigin(null); }}
                                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300 transition-colors">
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
                                 </button>
                             )}
                         </div>
@@ -198,7 +197,7 @@ export default function RoundtripForm({ onSearch, isLoading, setReturnDate }: Ro
                             {destination && (
                                 <button type="button" onClick={() => { setDestination(''); setSelectedDest(null); }}
                                     className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-300 transition-colors">
-                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/></svg>
+                                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 3L11 11M11 3L3 11" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" /></svg>
                                 </button>
                             )}
                         </div>

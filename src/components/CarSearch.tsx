@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MapPin, Calendar, Clock, Search, Car, Loader2, ExternalLink, Sparkles } from 'lucide-react';
+import { MapPin, Calendar, Clock, Search, Car, Loader2, ExternalLink } from 'lucide-react';
 import { searchCarLocation } from '../api/cars';
 import type { CarLocation } from '../api/cars';
 

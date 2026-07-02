@@ -1,11 +1,11 @@
-@import "tailwindcss";
 @import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import "tailwindcss";
 
 /* ─────────────────────────────────────────────── */
 /* AVIANTA ULTRA PREMIUM LIGHT LUXURY THEME       */
 /* ─────────────────────────────────────────────── */
 
-@theme {
+:root {
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 
   /* Light Luxury Base */

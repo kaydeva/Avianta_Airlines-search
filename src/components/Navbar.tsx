@@ -4,7 +4,7 @@ import { Menu, X } from 'lucide-react';
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = ['Start', 'Story', 'Rates', 'Benefits', 'FAQ'];
+  const navItems = ['FAQ'];
 
   const handleScroll = (id: string) => {
     setIsOpen(false);
@@ -64,8 +64,8 @@ export default function Navbar() {
       {/* Mobile Dropdown */}
       <div
         className={`absolute top-full left-4 right-4 mt-3 bg-black/60 backdrop-blur-xl rounded-2xl border border-white/10 shadow-2xl p-6 md:hidden transition-all duration-300 transform origin-top ${isOpen
-            ? 'opacity-100 scale-100 translate-y-0'
-            : 'opacity-0 scale-95 -translate-y-4 pointer-events-none'
+          ? 'opacity-100 scale-100 translate-y-0'
+          : 'opacity-0 scale-95 -translate-y-4 pointer-events-none'
           }`}
       >
         <div className="flex flex-col space-y-4">
