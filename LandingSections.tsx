@@ -523,7 +523,7 @@ export default function LandingSections() {
     },
     {
       name: 'Riyadh',
-      image: 'https://images.pexels.com/photos/3584437/pexels-photo-3584437.jpeg?auto=compress&cs=tinysrgb&w=600&h=800&dpr=1',
+      image: 'https://images.unsplash.com/photo-1696445361596-0f8c3d323f7e?ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&ixlib=rb-4.0.3&auto=format&fit=crop&w=600&h=800&q=80',
       iata: 'RUH',
       desc: 'Heart of Nejd'
     },
@@ -668,29 +668,14 @@ export default function LandingSections() {
         </div>
       </section>
 
-      {/* GLASSY GOLD TRAIL DIVIDER */}
-      <div className="
-  relative w-full h-[1px]
-  bg-gradient-to-r 
-  from-transparent 
-  via-[var(--color-brand-gold)]/30 
-  to-transparent
-  backdrop-blur-sm
-  border-t border-white/20
-">
+      {/* GLOWING TRAIL DIVIDER */}
+      <div className="relative w-full h-[1px] bg-gradient-to-r from-transparent via-[#C9A86A]/40 to-transparent">
         <motion.div
-          className="
-      absolute top-1/2 -translate-y-1/2 
-      w-5 h-5 rounded-full 
-      bg-[var(--color-brand-gold)]/70 
-      shadow-[0_0_20px_rgba(201,168,106,0.45)]
-      backdrop-blur-xl
-    "
-          animate={{ left: ['10%', '90%', '10%'] }}
-          transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
+          className="absolute top-1/2 -translate-y-1/2 w-4 h-4 rounded-full bg-[#C9A86A]/80 blur-md"
+          animate={{ left: ['20%', '80%', '20%'] }}
+          transition={{ duration: 8, repeat: Infinity, ease: 'easeInOut' }}
         />
       </div>
-
 
       {/* ══════════════════════════════════════════════════════════
           SCROLL-TRIGGERED 3D TRANSITION

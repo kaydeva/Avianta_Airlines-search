@@ -1,165 +1,278 @@
 import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
-
 import SearchForm from "./components/SearchForm";
 import RoundtripForm from "./components/RoundTripForm";
 import MulticityForm from "./components/MultiCityForm";
-
 import FlightResults from "./components/FlightResults";
+import HotelSearch from "./components/HotelSearch";
+import CarSearch from "./components/CarSearch";
 import LandingSections from "./components/LandingSections";
 
-import { searchFlights } from "./api/skyscanner";        // ONE-WAY
-import { searchRoundtrip } from "./api/roundtrip";       // ROUNDTRIP
-import { searchMulticity } from "./api/multiCity";       // MULTI-CITY
-
+import { searchFlights } from "./api/skyscanner";
+import { searchRoundtrip } from "./api/roundtrip";
+import { searchMulticity } from "./api/multiCity";
 import type { FlightResult } from "./api/skyscanner";
-import { Sparkles } from "lucide-react";
+
+import { Sparkles, Plane, Building2, Car, ArrowRight, Search } from "lucide-react";
+
+const SERVICE_TABS = [
+  { id: "flights", label: "Flights", Icon: Plane },
+  { id: "hotels", label: "Hotels", Icon: Building2 },
+  { id: "cars", label: "Car Hire", Icon: Car },
+] as const;
+
+type ServiceTab = typeof SERVICE_TABS[number]["id"];
+
+const FLIGHT_MODES = [
+  { id: "oneway", label: "One-Way" },
+  { id: "roundtrip", label: "Roundtrip" },
+  { id: "multicity", label: "Multi-City" },
+] as const;
+
+type FlightMode = typeof FLIGHT_MODES[number]["id"];
 
 export default function App() {
+  const [serviceTab, setServiceTab] = useState<ServiceTab>("flights");
+  const [flightMode, setFlightMode] = useState<FlightMode>("oneway");
   const [flights, setFlights] = useState<FlightResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [hasSearched, setHasSearched] = useState(false);
-
-  // search mode: "oneway" | "roundtrip" | "multicity"
-  const [searchMode, setSearchMode] = useState<"oneway" | "roundtrip" | "multicity">("oneway");
-
-  // roundtrip dates
   const [returnDate, setReturnDate] = useState("");
-
-  // multicity segments
   const [segments, setSegments] = useState<any[]>([]);
 
-  const handleSearch = async (origin: string, destination: string, date: string) => {
+  const handleSearch = async (
+    origin: string,
+    destination: string,
+    date: string,
+    reqReturnDate?: string,
+    reqSegments?: any[]
+  ) => {
     setIsLoading(true);
     setError("");
     setHasSearched(true);
 
-    const resultsElement = document.getElementById("results-area");
-    if (resultsElement) {
-      resultsElement.scrollIntoView({ behavior: "smooth" });
-    }
+    setTimeout(() => {
+      document.getElementById("results-area")?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
 
     try {
-      let results: any[] = [];
+      let results: FlightResult[] = [];
 
-      if (searchMode === "oneway") {
+      if (flightMode === "oneway") {
         results = await searchFlights(origin, destination, date);
       }
 
-      if (searchMode === "roundtrip") {
-        if (!returnDate) {
-          throw new Error("Please select a return date.");
-        }
-        results = await searchRoundtrip(origin, destination, date, returnDate);
+      if (flightMode === "roundtrip") {
+        const actualReturnDate = reqReturnDate || returnDate;
+        if (!actualReturnDate) throw new Error("Please select a return date.");
+        results = await searchRoundtrip(origin, destination, date, actualReturnDate);
       }
 
-      if (searchMode === "multicity") {
-        if (!segments.length) {
-          throw new Error("Please add at least one segment.");
-        }
-        results = await searchMulticity(segments);
+      if (flightMode === "multicity") {
+        const actualSegments = reqSegments || segments;
+        if (!actualSegments || actualSegments.length === 0) throw new Error("Please add at least one flight segment.");
+        results = await searchMulticity(actualSegments);
       }
 
       setFlights(results);
     } catch (err: any) {
-      setError(err.message || "An unexpected error occurred. Please try again.");
+      const msg = err?.response?.data?.error || err?.message || "An unexpected error occurred.";
+      setError(msg);
       setFlights([]);
     } finally {
       setIsLoading(false);
     }
   };
 
-  const handleBookNow = () => {
-    const searchElement = document.getElementById("search-section");
-    if (searchElement) {
-      searchElement.scrollIntoView({ behavior: "smooth" });
-    }
+  const scrollToSearch = () => {
+    document.getElementById("search-section")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-gray-900 selection:bg-amber-100 selection:text-amber-900">
+    <div className="min-h-screen bg-[#0D0D0F] text-[#F5F5F2] selection:bg-[#C9A86A]/30 selection:text-[#D8C9A3]">
       <Navbar />
-      <Hero onBookNowClick={handleBookNow} />
+      <Hero onBookNowClick={scrollToSearch} />
 
+      {/* ══════════ MAIN SEARCH SECTION ══════════ */}
       <section
         id="search-section"
-        className="max-w-7xl mx-auto px-6 md:px-8 py-20 md:py-28 scroll-mt-20 space-y-12"
+        className="relative max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-16 md:py-24 scroll-mt-28"
       >
-        <div className="text-center max-w-2xl mx-auto space-y-3">
-          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-100 text-[10px] md:text-xs font-semibold uppercase tracking-wider text-amber-700">
-            <Sparkles size={12} className="text-amber-500" /> Hybrid Search Engine
+
+
+        <div className="relative z-10 space-y-10">
+          {/* Section heading */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="text-center max-w-2xl mx-auto space-y-4"
+          >
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.1 }}
+              className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full bg-[#C9A86A]/10 border border-[#C9A86A]/20 text-[10px] font-semibold uppercase tracking-wider text-[#C9A86A]"
+            >
+              <Sparkles size={11} /> Premium Travel Engine
+            </motion.div>
+            <h2 className="text-3xl md:text-5xl font-light tracking-tight text-white">
+              Search. Compare. <span className="font-semibold text-[#C9A86A]">Fly.</span>
+            </h2>
+            <p className="text-sm md:text-base text-gray-400 max-w-lg mx-auto">
+              Real-time flights, hotels, and car hire from one elegant search — powered by Skyscanner.
+            </p>
+          </motion.div>
+
+          {/* Service tabs */}
+          <div className="flex justify-center">
+            <div className="inline-flex bg-white/5 backdrop-blur-sm rounded-2xl p-1 gap-1 border border-white/10">
+              {SERVICE_TABS.map(({ id, label, Icon }) => (
+                <button
+                  key={id}
+                  onClick={() => setServiceTab(id)}
+                  className={`relative flex items-center gap-2 px-5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${serviceTab === id
+                    ? "text-white"
+                    : "text-gray-500 hover:text-gray-300"
+                    }`}
+                >
+                  <Icon size={15} className={serviceTab === id ? "text-[#C9A86A]" : ""} />
+                  {label}
+                  {serviceTab === id && (
+                    <motion.div
+                      layoutId="service-tab-indicator"
+                      className="absolute inset-0 rounded-xl bg-white/10 border border-white/10 -z-10"
+                      transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
           </div>
-          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-gray-900">
-            Search Premium Pathways
-          </h2>
-          <p className="text-sm md:text-base text-gray-500 max-w-lg mx-auto">
-            Compare private charters with first-class commercial connections in one elegant search.
-          </p>
-        </div>
 
-        {/* Search Mode Selector */}
-        <div className="flex justify-center gap-4 mb-6">
-          <button
-            onClick={() => setSearchMode("oneway")}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${searchMode === "oneway"
-                ? "bg-[#C9A86A] text-white"
-                : "bg-white/20 text-gray-700 border border-gray-300"
-              }`}
-          >
-            One‑Way
-          </button>
+          {/* Tab content */}
+          <AnimatePresence mode="wait">
 
-          <button
-            onClick={() => setSearchMode("roundtrip")}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${searchMode === "roundtrip"
-                ? "bg-[#C9A86A] text-white"
-                : "bg-white/20 text-gray-700 border border-gray-300"
-              }`}
-          >
-            Roundtrip
-          </button>
+            {/* FLIGHTS */}
+            {serviceTab === "flights" && (
+              <motion.div
+                key="flights"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="space-y-8"
+              >
+                {/* Flight mode selector */}
+                <div className="flex justify-center gap-2 flex-wrap">
+                  {FLIGHT_MODES.map(({ id, label }) => (
+                    <button
+                      key={id}
+                      onClick={() => setFlightMode(id)}
+                      className={`relative px-5 py-2 rounded-full text-sm font-medium transition-all duration-200 border ${flightMode === id
+                        ? "bg-[#C9A86A] text-white border-[#C9A86A] shadow-lg shadow-[#C9A86A]/20"
+                        : "bg-white/[0.04] text-gray-400 border-white/10 hover:border-[#C9A86A]/40 hover:text-white"
+                        }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
 
-          <button
-            onClick={() => setSearchMode("multicity")}
-            className={`px-4 py-2 rounded-full text-sm font-medium ${searchMode === "multicity"
-                ? "bg-[#C9A86A] text-white"
-                : "bg-white/20 text-gray-700 border border-gray-300"
-              }`}
-          >
-            Multi‑City
-          </button>
-        </div>
+                <AnimatePresence mode="wait">
+                  {flightMode === "oneway" && (
+                    <motion.div
+                      key="oneway"
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 12 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <SearchForm onSearch={handleSearch} isLoading={isLoading} />
+                    </motion.div>
+                  )}
 
-        {/* Main Search Form */}
-        {searchMode === "oneway" && (
-          <SearchForm onSearch={handleSearch} isLoading={isLoading} />
-        )}
+                  {flightMode === "roundtrip" && (
+                    <motion.div
+                      key="roundtrip"
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 12 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <RoundtripForm
+                        onSearch={handleSearch}
+                        isLoading={isLoading}
+                        setReturnDate={setReturnDate}
+                      />
+                    </motion.div>
+                  )}
 
-        {searchMode === "roundtrip" && (
-          <RoundtripForm
-            onSearch={handleSearch}
-            isLoading={isLoading}
-            setReturnDate={setReturnDate}
-          />
-        )}
+                  {flightMode === "multicity" && (
+                    <motion.div
+                      key="multicity"
+                      initial={{ opacity: 0, x: -12 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 12 }}
+                      transition={{ duration: 0.25 }}
+                    >
+                      <MulticityForm
+                        onSearch={handleSearch}
+                        isLoading={isLoading}
+                        setSegments={setSegments}
+                      />
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
-        {searchMode === "multicity" && (
-          <MulticityForm
-            onSearch={handleSearch}
-            isLoading={isLoading}
-            setSegments={setSegments}
-          />
-        )}
+                {/* Results area */}
+                <div id="results-area" className="scroll-mt-32">
+                  <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={hasSearched ? { opacity: 1, y: 0 } : {}}
+                    transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+                  >
+                    <FlightResults
+                      flights={flights}
+                      isLoading={isLoading}
+                      error={error}
+                      hasSearched={hasSearched}
+                    />
+                  </motion.div>
+                </div>
+              </motion.div>
+            )}
 
-        <div id="results-area" className="scroll-mt-32">
-          <FlightResults
-            flights={flights}
-            isLoading={isLoading}
-            error={error}
-            hasSearched={hasSearched}
-          />
+            {/* HOTELS */}
+            {serviceTab === "hotels" && (
+              <motion.div
+                key="hotels"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <HotelSearch />
+              </motion.div>
+            )}
+
+            {/* CARS */}
+            {serviceTab === "cars" && (
+              <motion.div
+                key="cars"
+                initial={{ opacity: 0, y: 16 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+              >
+                <CarSearch />
+              </motion.div>
+            )}
+
+          </AnimatePresence>
         </div>
       </section>
 
@@ -167,3 +280,5 @@ export default function App() {
     </div>
   );
 }
+
+

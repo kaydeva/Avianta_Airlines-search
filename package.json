@@ -6,10 +6,13 @@
   "scripts": {
     "dev": "vite",
     "server": "ts-node server.ts",
+    "server:dev": "ts-node --watch server.ts",
+    "start": "ts-node server.ts",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
     "preview": "vite preview"
   },
+
   "dependencies": {
     "@tailwindcss/vite": "^4.3.2",
     "autoprefixer": "^10.5.2",
@@ -17,6 +20,7 @@
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
+    "framer-motion": "^12.42.2",
     "lucide-react": "^1.22.0",
     "postcss": "^8.5.16",
     "react": "^19.2.7",
